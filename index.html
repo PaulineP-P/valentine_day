@@ -49,33 +49,87 @@
         .container {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
-            padding: 60px 50px;
+            padding: 40px 50px 60px 50px;
             border-radius: 60px 20px 60px 20px;
             box-shadow: 
                 0 20px 40px rgba(255, 105, 180, 0.2),
                 0 0 0 2px rgba(255, 182, 193, 0.5),
                 0 0 0 5px rgba(255, 255, 255, 0.7);
-            max-width: 800px;
-            width: 90%;
+            max-width: 900px;
+            width: 95%;
             position: relative;
             border: 1px solid rgba(255, 255, 255, 0.8);
+            z-index: 10;
         }
 
-        /* Контейнер для фото */
-        .photo-container {
+        /* Карусель с фото в форме сердечек */
+        .photo-carousel {
+            width: 100%;
+            overflow: hidden;
+            margin: 20px 0 30px 0;
+            padding: 20px 0;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 30px;
+            animation: scroll 20s linear infinite;
+            width: fit-content;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(calc(-200px * 6 - 180px)); /* Ширина фото * количество + отступы */
+            }
+        }
+
+        /* Останавливаем анимацию при наведении */
+        .carousel-track:hover {
+            animation-play-state: paused;
+        }
+
+        .heart-photo {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            clip-path: path('M90,30 C100,10 130,0 150,20 C170,40 170,70 150,90 C130,110 90,150 90,150 C90,150 50,110 30,90 C10,70 10,40 30,20 C50,0 80,10 90,30 Z');
+            box-shadow: 0 15px 30px rgba(255, 20, 147, 0.4);
+            border: 4px solid white;
+            transition: all 0.3s ease;
+            filter: brightness(1) drop-shadow(0 0 15px #ff69b4);
+        }
+
+        .heart-photo:hover {
+            transform: scale(1.1) rotate(5deg);
+            filter: brightness(1.1) drop-shadow(0 0 25px #ff1493);
+            border-color: #ff69b4;
+        }
+
+        /* Главное фото (крупное) */
+        .main-photo-container {
             text-align: center;
-            margin-bottom: 30px;
+            margin: 20px 0 30px;
         }
         
-        .photo {
-            width: 200px;
-            height: 200px;
+        .main-photo {
+            width: 220px;
+            height: 220px;
             border-radius: 50%;
-            object-fit: cover; /* Чтобы фото красиво вписалось в круг */
-            border: 5px solid white;
-            box-shadow: 0 10px 20px rgba(255, 20, 147, 0.3);
+            object-fit: cover;
+            border: 6px solid white;
+            box-shadow: 0 15px 30px rgba(255, 20, 147, 0.4);
             margin: 0 auto;
             display: block;
+            border: 4px solid #ff69b4;
+            animation: mainPhotoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes mainPhotoFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
         }
 
         .question {
@@ -83,21 +137,20 @@
             font-size: 2.8rem;
             color: #ff1493;
             text-align: center;
-            margin: 30px 0 50px;
+            margin: 30px 0 40px;
             line-height: 1.4;
             text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
             background: rgba(255, 255, 255, 0.5);
             padding: 30px 20px;
             border-radius: 100px 20px 100px 20px;
             border: 2px dashed #ff69b4;
-            word-break: break-word;
         }
 
         .button-container {
             display: flex;
             justify-content: center;
             gap: 50px;
-            margin: 40px 0 20px;
+            margin: 30px 0 10px;
             position: relative;
             z-index: 10;
             flex-wrap: wrap;
@@ -191,7 +244,7 @@
 
         @media (max-width: 600px) {
             .container {
-                padding: 40px 20px;
+                padding: 30px 20px;
             }
             .question {
                 font-size: 2.2rem;
@@ -209,9 +262,18 @@
             .success-title {
                 font-size: 2.8rem;
             }
-            .photo {
-                width: 150px;
-                height: 150px;
+            .main-photo {
+                width: 180px;
+                height: 180px;
+            }
+            .heart-photo {
+                width: 130px;
+                height: 130px;
+            }
+            @keyframes scroll {
+                100% {
+                    transform: translateX(calc(-130px * 6 - 150px));
+                }
             }
         }
     </style>
@@ -221,9 +283,28 @@
         
         <!-- Секция с вопросом -->
         <div id="questionSection">
-            <!-- ЗДЕСЬ БУДЕТ ТВОЕ ФОТО -->
-            <div class="photo-container">
-                <img src="valentinka.jpg" alt="Наше фото" class="photo" id="myPhoto">
+            
+            <!-- Карусель из 6 фото в форме сердечек (двигаются слева направо) -->
+            <div class="photo-carousel">
+                <div class="carousel-track" id="photoTrack">
+                    <!-- Фото 1 -->
+                    <img src="photo1.jpg" alt="Фото 1" class="heart-photo" onerror="this.src='https://via.placeholder.com/180x180/ff69b4/ffffff?text=💗'">
+                    <!-- Фото 2 -->
+                    <img src="photo2.jpg" alt="Фото 2" class="heart-photo" onerror="this.src='https://via.placeholder.com/180x180/ff69b4/ffffff?text=💕'">
+                    <!-- Фото 3 -->
+                    <img src="photo3.jpg" alt="Фото 3" class="heart-photo" onerror="this.src='https://via.placeholder.com/180x180/ff69b4/ffffff?text=💖'">
+                    <!-- Фото 4 -->
+                    <img src="photo4.jpg" alt="Фото 4" class="heart-photo" onerror="this.src='https://via.placeholder.com/180x180/ff69b4/ffffff?text=💘'">
+                    <!-- Фото 5 -->
+                    <img src="photo5.jpg" alt="Фото 5" class="heart-photo" onerror="this.src='https://via.placeholder.com/180x180/ff69b4/ffffff?text=💝'">
+                    <!-- Фото 6 -->
+                    <img src="photo6.jpg" alt="Фото 6" class="heart-photo" onerror="this.src='https://via.placeholder.com/180x180/ff69b4/ffffff?text=💞'">
+                </div>
+            </div>
+
+            <!-- Главное фото (крупное, которое уже было) -->
+            <div class="main-photo-container">
+                <img src="valentinka.jpg" alt="Наше фото" class="main-photo" id="myPhoto" onerror="this.src='https://via.placeholder.com/220x220/ff69b4/ffffff?text=💗'">
             </div>
             
             <div class="question">
