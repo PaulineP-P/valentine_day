@@ -19,20 +19,23 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+
         body {
             min-height: 100vh;
             background: linear-gradient(145deg, #fff0f5 0%, #ffe4ec 50%, #ffd9e4 100%);
             font-family: 'TM Vinograd', 'Arial', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start; /* ИЗМЕНЕНО: чтобы можно было прокручивать от начала */
+            display: block;
             position: relative;
-            overflow-y: auto; /* ИЗМЕНЕНО: разрешаем прокрутку */
+            overflow-y: auto;
             overflow-x: hidden;
-            padding: 20px 0; /* Добавлено: отступы сверху и снизу */
+            padding: 0;
         }
 
-        /* Красивая полоса прокрутки для Chrome */
+        /* Красивая полоса прокрутки */
         ::-webkit-scrollbar {
             width: 8px;
             background: #ffe4ec;
@@ -51,13 +54,15 @@
         /* Мягкое свечение */
         body::before {
             content: '';
-            position: fixed; /* ИЗМЕНЕНО: fixed вместо absolute */
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             background: radial-gradient(circle at center, #ffb6c1 0%, transparent 70%);
             opacity: 0.3;
             animation: softGlow 4s ease-in-out infinite;
-            pointer-events: none; /* Чтобы не мешало нажатиям */
+            pointer-events: none;
             z-index: 0;
         }
 
@@ -80,7 +85,7 @@
             position: relative;
             border: 1px solid rgba(255, 255, 255, 0.8);
             z-index: 10;
-            margin: 20px auto; /* Центрирование с отступами */
+            margin: 20px auto;
         }
 
         /* Карусель с фото в форме сердечек */
@@ -89,25 +94,23 @@
             overflow: hidden;
             margin: 10px 0 20px 0;
             padding: 10px 0;
-            -webkit-overflow-scrolling: touch; /* Плавный скролл на iPhone */
+            -webkit-overflow-scrolling: touch;
         }
 
         .carousel-track {
             display: flex;
-            gap: 15px; /* Уменьшил отступы для мобильных */
-            animation: scroll 25s linear infinite; /* Немного замедлил */
+            gap: 15px;
+            animation: scroll 25s linear infinite;
             width: fit-content;
             padding: 5px 0;
         }
 
-        /* Останавливаем анимацию на мобильных при касании */
         @media (hover: hover) {
             .carousel-track:hover {
                 animation-play-state: paused;
             }
         }
 
-        /* Для мобильных - пауза при нажатии */
         .carousel-track.paused {
             animation-play-state: paused;
         }
@@ -122,7 +125,7 @@
         }
 
         .heart-photo {
-            width: 150px; /* Уменьшил для мобильных */
+            width: 150px;
             height: 150px;
             object-fit: cover;
             clip-path: path('M90,30 C100,10 130,0 150,20 C170,40 170,70 150,90 C130,110 90,150 90,150 C90,150 50,110 30,90 C10,70 10,40 30,20 C50,0 80,10 90,30 Z');
@@ -132,7 +135,6 @@
             filter: brightness(1) drop-shadow(0 0 15px #ff69b4);
         }
 
-        /* Упрощаем hover для мобильных */
         @media (hover: hover) {
             .heart-photo:hover {
                 transform: scale(1.1) rotate(5deg);
@@ -148,7 +150,7 @@
         }
         
         .main-photo {
-            width: 180px; /* Уменьшил для мобильных */
+            width: 180px;
             height: 180px;
             border-radius: 50%;
             object-fit: cover;
@@ -166,7 +168,7 @@
 
         .question {
             font-family: 'TM Vinograd', 'Arial', sans-serif;
-            font-size: 2.2rem; /* Уменьшил для мобильных */
+            font-size: 2.2rem;
             color: #ff1493;
             text-align: center;
             margin: 20px 0 20px;
@@ -179,7 +181,7 @@
             word-break: break-word;
         }
 
-        /* Стили для плеера */
+        /* Стили для видео-плеера */
         .music-section {
             text-align: center;
             margin: 20px 0 25px;
@@ -192,44 +194,35 @@
         .music-artist {
             font-size: 1.2rem;
             color: #ff69b4;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             font-style: italic;
         }
 
-        .audio-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            background: white;
-            padding: 12px 15px;
-            border-radius: 50px;
-            box-shadow: 0 5px 20px rgba(255, 20, 147, 0.2);
-            border: 2px solid #ff69b4;
-            max-width: 350px;
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 560px;
             margin: 0 auto;
-            flex-wrap: wrap;
-        }
-
-        .audio-wrapper audio {
-            height: 40px;
-            width: 220px;
             border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(255, 20, 147, 0.3);
+            border: 4px solid white;
         }
 
-        .audio-wrapper audio::-webkit-media-controls-panel {
-            background: #fff0f5;
-        }
-
-        .audio-wrapper audio::-webkit-media-controls-play-button {
-            background: #ff69b4;
-            border-radius: 50%;
+        .video-wrapper iframe {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            border: none;
         }
 
         .music-note-small {
             font-size: 1.6rem;
             color: #ff69b4;
             animation: pulse 2s ease-in-out infinite;
+            display: inline-block;
+            margin: 10px 5px 0;
         }
 
         @keyframes pulse {
@@ -261,7 +254,7 @@
             min-width: 160px;
             position: relative;
             box-shadow: 0 10px 20px rgba(255, 20, 147, 0.2);
-            -webkit-tap-highlight-color: transparent; /* Убирает серый фон при нажатии на iPhone */
+            -webkit-tap-highlight-color: transparent;
         }
 
         .btn-yes {
@@ -273,7 +266,7 @@
         }
 
         .btn-yes:active {
-            transform: scale(0.95); /* Эффект нажатия */
+            transform: scale(0.95);
         }
 
         .btn-no {
@@ -281,7 +274,7 @@
             color: #ff69b4;
             border: 3px solid #ff69b4;
             position: relative;
-            touch-action: none; /* Помогает с убеганием на мобильных */
+            touch-action: none;
         }
 
         .success-section {
@@ -328,7 +321,7 @@
             margin: 15px auto;
         }
 
-        /* Специальные правила для маленьких экранов */
+        /* Маленькие экраны */
         @media (max-width: 480px) {
             .container {
                 padding: 20px 15px 30px 15px;
@@ -364,10 +357,6 @@
                 height: 120px;
             }
             
-            .audio-wrapper audio {
-                width: 180px;
-            }
-            
             .music-artist {
                 font-size: 1rem;
             }
@@ -379,7 +368,6 @@
             }
         }
 
-        /* Для очень маленьких экранов */
         @media (max-width: 360px) {
             .btn {
                 font-size: 1.3rem;
@@ -403,24 +391,19 @@
             }
         }
 
-        /* Для iPad и планшетов */
-        @media (min-width: 768px) and (max-width: 1024px) {
+        /* Большие экраны */
+        @media (min-width: 1025px) {
             .container {
-                max-width: 700px;
+                margin: 40px auto;
+            }
+            
+            .question {
+                font-size: 2.5rem;
             }
             
             .main-photo {
                 width: 200px;
                 height: 200px;
-            }
-            
-            .heart-photo {
-                width: 160px;
-                height: 160px;
-            }
-            
-            .question {
-                font-size: 2.5rem;
             }
         }
     </style>
@@ -452,17 +435,13 @@
                 Продлеваешь подписку на год<br>быть моей Валентинкой?
             </div>
 
-            <!-- Секция с музыкой -->
+            <!-- Секция с видео Michael Bublé -->
             <div class="music-section">
                 <div class="music-artist">Michael Bublé — L O V E</div>
-                <div class="audio-wrapper">
-                    <span class="music-note-small">♪</span>
-                    <audio controls preload="metadata">
-                        <source src="Michael_Buble_-_L_O_V_E_.mp3" type="audio/mpeg">
-                        Твой браузер не поддерживает аудио
-                    </audio>
-                    <span class="music-note-small">♫</span>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/hGp5WE7IK-8?si=AVwsMpdW9RU5FB6X" title="Michael Bublé - L.O.V.E." frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
+                <div class="music-note-small">♪ ♪ ♪</div>
             </div>
 
             <div class="button-container">
@@ -473,23 +452,19 @@
 
         <!-- Секция с успехом -->
         <div id="successSection" class="success-section hidden">
-            <div class="success-title">Я и не сомневалась;)</div>
+            <div class="success-title">я и не сомневалась;)</div>
             <div class="soft-line"></div>
             <div class="subscription-info">
                 Подписка продлевается<br>до 14.02.2027
             </div>
             <div class="soft-line"></div>
-            <!-- Музыка в секции успеха -->
+            <!-- Видео в секции успеха -->
             <div class="music-section" style="margin-top: 20px;">
                 <div class="music-artist">Michael Bublé — L O V E</div>
-                <div class="audio-wrapper">
-                    <span class="music-note-small">♪</span>
-                    <audio controls preload="metadata">
-                        <source src="Michael_Buble_-_L_O_V_E_.mp3" type="audio/mpeg">
-                        Твой браузер не поддерживает аудио
-                    </audio>
-                    <span class="music-note-small">♫</span>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/hGp5WE7IK-8?si=AVwsMpdW9RU5FB6X" title="Michael Bublé - L.O.V.E." frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
+                <div class="music-note-small">♪ ♪ ♪</div>
             </div>
         </div>
     </div>
