@@ -36,17 +36,16 @@ document.addEventListener('DOMContentLoaded', function() {
         noButton.style.top = newY + 'px';
         noButton.style.zIndex = '9999';
         
-        // Добавляем неоновый след
-        noButton.style.boxShadow = '0 0 30px #ff00a6, 0 0 60px #ff00a6';
+        // Добавляем эффект "испуга"
+        noButton.style.transform = 'scale(0.9) rotate(-5deg)';
+        noButton.style.boxShadow = '0 15px 30px #ff69b4';
         
-        // Анимация испуга
-        noButton.style.transform = 'scale(0.8) rotate(5deg)';
         setTimeout(() => {
-            noButton.style.transform = 'scale(1) rotate(-5deg)';
+            noButton.style.transform = 'scale(1) rotate(3deg)';
             setTimeout(() => {
                 noButton.style.transform = 'scale(1) rotate(0deg)';
             }, 100);
-        }, 100);
+        }, 150);
     }
 
     // Обработчики для кнопки "Нет"
@@ -67,24 +66,17 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             moveButton();
         });
-        
-        // Чтобы кнопка не убегала слишком далеко при скролле
-        window.addEventListener('scroll', function() {
-            if (noButton.style.position === 'fixed') {
-                moveButton();
-            }
-        });
     }
 
     // Обработка нажатия на кнопку "Да"
     if (yesButton) {
         yesButton.addEventListener('click', function() {
-            // Неоновый эффект при нажатии
-            document.body.style.background = '#ff00a6';
+            // Эффект вспышки
+            document.body.style.background = '#ffe4ec';
             document.body.style.transition = 'background 0.5s ease';
             
             setTimeout(() => {
-                document.body.style.background = '#000';
+                document.body.style.background = 'linear-gradient(145deg, #fff0f5 0%, #ffe4ec 50%, #ffd9e4 100%)';
             }, 300);
             
             // Плавно скрываем вопрос
@@ -110,34 +102,34 @@ document.addEventListener('DOMContentLoaded', function() {
             noButton.style.position = 'relative';
             noButton.style.left = '';
             noButton.style.top = '';
-            noButton.style.boxShadow = '0 0 15px #ff00a6';
+            noButton.style.transform = '';
         }
     });
 
-    // Добавляем неоновые искры при движении мыши
+    // Добавляем легкие сердечки при движении мыши (для атмосферы)
     document.addEventListener('mousemove', function(e) {
         if (!successSection.classList.contains('hidden')) return;
+        if (Math.random() > 0.1) return; // 10% шанс появления
         
-        const spark = document.createElement('div');
-        spark.style.position = 'fixed';
-        spark.style.left = e.clientX + 'px';
-        spark.style.top = e.clientY + 'px';
-        spark.style.width = '5px';
-        spark.style.height = '5px';
-        spark.style.background = '#ff00a6';
-        spark.style.borderRadius = '50%';
-        spark.style.boxShadow = '0 0 20px #ff00a6, 0 0 40px #ff00a6';
-        spark.style.pointerEvents = 'none';
-        spark.style.zIndex = '9998';
-        spark.style.transition = 'all 1s ease';
+        const heart = document.createElement('div');
+        heart.style.position = 'fixed';
+        heart.style.left = e.clientX + 'px';
+        heart.style.top = e.clientY + 'px';
+        heart.style.fontSize = '20px';
+        heart.style.color = '#ff69b4';
+        heart.style.opacity = '0.5';
+        heart.style.pointerEvents = 'none';
+        heart.style.zIndex = '9998';
+        heart.style.transition = 'all 1s ease';
+        heart.textContent = '💗';
         
-        document.body.appendChild(spark);
+        document.body.appendChild(heart);
         
         setTimeout(() => {
-            spark.style.opacity = '0';
-            spark.style.transform = 'translateY(-30px)';
+            heart.style.opacity = '0';
+            heart.style.transform = 'translateY(-30px) rotate(20deg)';
             setTimeout(() => {
-                spark.remove();
+                heart.remove();
             }, 1000);
         }, 50);
     });
