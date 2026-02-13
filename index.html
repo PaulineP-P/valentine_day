@@ -61,6 +61,23 @@
             border: 1px solid rgba(255, 255, 255, 0.8);
         }
 
+        /* Контейнер для фото */
+        .photo-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover; /* Чтобы фото красиво вписалось в круг */
+            border: 5px solid white;
+            box-shadow: 0 10px 20px rgba(255, 20, 147, 0.3);
+            margin: 0 auto;
+            display: block;
+        }
+
         .question {
             font-family: 'TM Vinograd', 'Arial', sans-serif;
             font-size: 2.8rem;
@@ -161,19 +178,6 @@
             box-shadow: inset 0 0 20px #ffe4ec;
         }
 
-        .heart-decoration {
-            font-size: 2rem;
-            color: #ff69b4;
-            margin: 20px 0;
-            opacity: 0.7;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.7; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
-
         .hidden {
             display: none;
         }
@@ -205,6 +209,10 @@
             .success-title {
                 font-size: 2.8rem;
             }
+            .photo {
+                width: 150px;
+                height: 150px;
+            }
         }
     </style>
 </head>
@@ -213,7 +221,11 @@
         
         <!-- Секция с вопросом -->
         <div id="questionSection">
-            <div class="heart-decoration">💗 💕 💗</div>
+            <!-- ЗДЕСЬ БУДЕТ ТВОЕ ФОТО -->
+            <div class="photo-container">
+                <img src="your-photo.jpg" alt="Наше фото" class="photo" id="myPhoto">
+            </div>
+            
             <div class="question">
                 Продлеваешь подписку на год<br>быть моей валентинкой?
             </div>
@@ -221,19 +233,16 @@
                 <button class="btn btn-yes" id="yesBtn">ДА 💗</button>
                 <button class="btn btn-no" id="noBtn">НЕТ 💔</button>
             </div>
-            <div class="heart-decoration">💗 💕 💗</div>
         </div>
 
         <!-- Секция с успехом -->
         <div id="successSection" class="success-section hidden">
-            <div class="heart-decoration">🌸 💗 🌸</div>
             <div class="success-title">я не сомневалась)))</div>
             <div class="soft-line"></div>
             <div class="subscription-info">
                 подписка продлевается<br>до 14.02.2027
             </div>
             <div class="soft-line"></div>
-            <div class="heart-decoration">💗 💗 💗</div>
         </div>
     </div>
 
