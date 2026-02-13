@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>💗 Валентинка</title>
     <!-- Подключаем шрифт TM Vinograd -->
     <style>
@@ -25,20 +25,40 @@
             font-family: 'TM Vinograd', 'Arial', sans-serif;
             display: flex;
             justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            align-items: flex-start; /* ИЗМЕНЕНО: чтобы можно было прокручивать от начала */
             position: relative;
+            overflow-y: auto; /* ИЗМЕНЕНО: разрешаем прокрутку */
+            overflow-x: hidden;
+            padding: 20px 0; /* Добавлено: отступы сверху и снизу */
+        }
+
+        /* Красивая полоса прокрутки для Chrome */
+        ::-webkit-scrollbar {
+            width: 8px;
+            background: #ffe4ec;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ff69b4;
+            border-radius: 10px;
+            border: 2px solid white;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff1493;
         }
 
         /* Мягкое свечение */
         body::before {
             content: '';
-            position: absolute;
+            position: fixed; /* ИЗМЕНЕНО: fixed вместо absolute */
             width: 100%;
             height: 100%;
             background: radial-gradient(circle at center, #ffb6c1 0%, transparent 70%);
             opacity: 0.3;
             animation: softGlow 4s ease-in-out infinite;
+            pointer-events: none; /* Чтобы не мешало нажатиям */
+            z-index: 0;
         }
 
         @keyframes softGlow {
@@ -49,7 +69,7 @@
         .container {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
-            padding: 40px 50px 60px 50px;
+            padding: 30px 20px 40px 20px;
             border-radius: 60px 20px 60px 20px;
             box-shadow: 
                 0 20px 40px rgba(255, 105, 180, 0.2),
@@ -60,21 +80,36 @@
             position: relative;
             border: 1px solid rgba(255, 255, 255, 0.8);
             z-index: 10;
+            margin: 20px auto; /* Центрирование с отступами */
         }
 
         /* Карусель с фото в форме сердечек */
         .photo-carousel {
             width: 100%;
             overflow: hidden;
-            margin: 20px 0 30px 0;
-            padding: 20px 0;
+            margin: 10px 0 20px 0;
+            padding: 10px 0;
+            -webkit-overflow-scrolling: touch; /* Плавный скролл на iPhone */
         }
 
         .carousel-track {
             display: flex;
-            gap: 30px;
-            animation: scroll 20s linear infinite;
+            gap: 15px; /* Уменьшил отступы для мобильных */
+            animation: scroll 25s linear infinite; /* Немного замедлил */
             width: fit-content;
+            padding: 5px 0;
+        }
+
+        /* Останавливаем анимацию на мобильных при касании */
+        @media (hover: hover) {
+            .carousel-track:hover {
+                animation-play-state: paused;
+            }
+        }
+
+        /* Для мобильных - пауза при нажатии */
+        .carousel-track.paused {
+            animation-play-state: paused;
         }
 
         @keyframes scroll {
@@ -82,17 +117,13 @@
                 transform: translateX(0);
             }
             100% {
-                transform: translateX(calc(-200px * 6 - 180px));
+                transform: translateX(calc(-180px * 6 - 90px));
             }
         }
 
-        .carousel-track:hover {
-            animation-play-state: paused;
-        }
-
         .heart-photo {
-            width: 180px;
-            height: 180px;
+            width: 150px; /* Уменьшил для мобильных */
+            height: 150px;
             object-fit: cover;
             clip-path: path('M90,30 C100,10 130,0 150,20 C170,40 170,70 150,90 C130,110 90,150 90,150 C90,150 50,110 30,90 C10,70 10,40 30,20 C50,0 80,10 90,30 Z');
             box-shadow: 0 15px 30px rgba(255, 20, 147, 0.4);
@@ -101,24 +132,26 @@
             filter: brightness(1) drop-shadow(0 0 15px #ff69b4);
         }
 
-        .heart-photo:hover {
-            transform: scale(1.1) rotate(5deg);
-            filter: brightness(1.1) drop-shadow(0 0 25px #ff1493);
-            border-color: #ff69b4;
+        /* Упрощаем hover для мобильных */
+        @media (hover: hover) {
+            .heart-photo:hover {
+                transform: scale(1.1) rotate(5deg);
+                filter: brightness(1.1) drop-shadow(0 0 25px #ff1493);
+                border-color: #ff69b4;
+            }
         }
 
         /* Главное фото */
         .main-photo-container {
             text-align: center;
-            margin: 20px 0 30px;
+            margin: 15px 0 20px;
         }
         
         .main-photo {
-            width: 220px;
-            height: 220px;
+            width: 180px; /* Уменьшил для мобильных */
+            height: 180px;
             border-radius: 50%;
             object-fit: cover;
-            border: 6px solid white;
             box-shadow: 0 15px 30px rgba(255, 20, 147, 0.4);
             margin: 0 auto;
             display: block;
@@ -128,37 +161,38 @@
 
         @keyframes mainPhotoFloat {
             0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(2deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
         }
 
         .question {
             font-family: 'TM Vinograd', 'Arial', sans-serif;
-            font-size: 2.8rem;
+            font-size: 2.2rem; /* Уменьшил для мобильных */
             color: #ff1493;
             text-align: center;
-            margin: 30px 0 20px;
+            margin: 20px 0 20px;
             line-height: 1.4;
             text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
             background: rgba(255, 255, 255, 0.5);
-            padding: 30px 20px;
-            border-radius: 100px 20px 100px 20px;
+            padding: 20px 15px;
+            border-radius: 80px 20px 80px 20px;
             border: 2px dashed #ff69b4;
+            word-break: break-word;
         }
 
         /* Стили для плеера */
         .music-section {
             text-align: center;
-            margin: 30px 0 30px;
-            padding: 20px;
+            margin: 20px 0 25px;
+            padding: 15px;
             background: rgba(255, 255, 255, 0.6);
-            border-radius: 80px 20px 80px 20px;
+            border-radius: 60px 20px 60px 20px;
             border: 2px solid #ffb6c1;
         }
 
         .music-artist {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: #ff69b4;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             font-style: italic;
         }
 
@@ -166,19 +200,20 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
             background: white;
-            padding: 15px 25px;
-            border-radius: 60px;
+            padding: 12px 15px;
+            border-radius: 50px;
             box-shadow: 0 5px 20px rgba(255, 20, 147, 0.2);
             border: 2px solid #ff69b4;
-            max-width: 400px;
+            max-width: 350px;
             margin: 0 auto;
+            flex-wrap: wrap;
         }
 
         .audio-wrapper audio {
-            height: 45px;
-            width: 280px;
+            height: 40px;
+            width: 220px;
             border-radius: 30px;
         }
 
@@ -192,7 +227,7 @@
         }
 
         .music-note-small {
-            font-size: 2rem;
+            font-size: 1.6rem;
             color: #ff69b4;
             animation: pulse 2s ease-in-out infinite;
         }
@@ -205,27 +240,28 @@
         .button-container {
             display: flex;
             justify-content: center;
-            gap: 50px;
-            margin: 30px 0 10px;
+            gap: 20px;
+            margin: 25px 0 15px;
             position: relative;
-            z-index: 10;
+            z-index: 20;
             flex-wrap: wrap;
         }
 
         .btn {
             font-family: 'TM Vinograd', 'Arial', sans-serif;
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: bold;
-            padding: 20px 60px;
+            padding: 15px 40px;
             border: none;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             border-radius: 50px;
-            min-width: 220px;
+            min-width: 160px;
             position: relative;
             box-shadow: 0 10px 20px rgba(255, 20, 147, 0.2);
+            -webkit-tap-highlight-color: transparent; /* Убирает серый фон при нажатии на iPhone */
         }
 
         .btn-yes {
@@ -236,10 +272,8 @@
             box-shadow: 0 10px 20px #ffb6c1;
         }
 
-        .btn-yes:hover {
-            transform: scale(1.1) rotate(2deg);
-            background: #ff1493;
-            box-shadow: 0 15px 30px #ff69b4;
+        .btn-yes:active {
+            transform: scale(0.95); /* Эффект нажатия */
         }
 
         .btn-no {
@@ -247,43 +281,39 @@
             color: #ff69b4;
             border: 3px solid #ff69b4;
             position: relative;
-        }
-
-        .btn-no:hover {
-            background: #fff0f5;
-            transform: scale(1.05);
+            touch-action: none; /* Помогает с убеганием на мобильных */
         }
 
         .success-section {
             text-align: center;
-            padding: 20px;
+            padding: 15px;
         }
 
         .success-title {
             font-family: 'TM Vinograd', 'Arial', sans-serif;
-            font-size: 3.5rem;
+            font-size: 2.8rem;
             color: #ff1493;
-            margin: 20px 0 30px;
+            margin: 15px 0 20px;
             text-shadow: 3px 3px 6px rgba(255, 255, 255, 0.9);
             animation: bounce 2s ease-in-out infinite;
         }
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+            50% { transform: translateY(-10px); }
         }
 
         .subscription-info {
             font-family: 'TM Vinograd', 'Arial', sans-serif;
-            font-size: 2.8rem;
+            font-size: 2.2rem;
             color: #ff1493;
-            margin: 40px 0;
-            padding: 30px;
+            margin: 30px 0;
+            padding: 20px;
             border-top: 3px solid #ffb6c1;
             border-bottom: 3px solid #ffb6c1;
             background: rgba(255, 255, 255, 0.6);
-            border-radius: 50px;
-            line-height: 1.5;
+            border-radius: 40px;
+            line-height: 1.4;
             box-shadow: inset 0 0 20px #ffe4ec;
         }
 
@@ -294,49 +324,103 @@
         .soft-line {
             height: 2px;
             background: linear-gradient(90deg, transparent, #ffb6c1, #ff69b4, #ffb6c1, transparent);
-            width: 70%;
-            margin: 20px auto;
+            width: 80%;
+            margin: 15px auto;
         }
 
-        @media (max-width: 600px) {
+        /* Специальные правила для маленьких экранов */
+        @media (max-width: 480px) {
             .container {
-                padding: 30px 20px;
+                padding: 20px 15px 30px 15px;
             }
+            
             .question {
-                font-size: 2.2rem;
-                padding: 20px 15px;
-            }
-            .btn {
                 font-size: 1.8rem;
-                padding: 15px 40px;
-                min-width: 180px;
+                padding: 15px 10px;
             }
+            
+            .btn {
+                font-size: 1.5rem;
+                padding: 12px 25px;
+                min-width: 130px;
+            }
+            
             .subscription-info {
-                font-size: 2.2rem;
-                padding: 20px;
+                font-size: 1.8rem;
+                padding: 15px;
             }
+            
             .success-title {
-                font-size: 2.8rem;
+                font-size: 2.2rem;
             }
+            
             .main-photo {
-                width: 180px;
-                height: 180px;
+                width: 150px;
+                height: 150px;
             }
+            
             .heart-photo {
-                width: 130px;
-                height: 130px;
+                width: 120px;
+                height: 120px;
             }
+            
+            .audio-wrapper audio {
+                width: 180px;
+            }
+            
+            .music-artist {
+                font-size: 1rem;
+            }
+            
             @keyframes scroll {
                 100% {
-                    transform: translateX(calc(-130px * 6 - 150px));
+                    transform: translateX(calc(-120px * 6 - 90px));
                 }
             }
-            .audio-wrapper {
-                padding: 10px 15px;
-                flex-direction: column;
+        }
+
+        /* Для очень маленьких экранов */
+        @media (max-width: 360px) {
+            .btn {
+                font-size: 1.3rem;
+                padding: 10px 20px;
+                min-width: 110px;
             }
-            .audio-wrapper audio {
+            
+            .question {
+                font-size: 1.5rem;
+            }
+            
+            .heart-photo {
+                width: 100px;
+                height: 100px;
+            }
+            
+            @keyframes scroll {
+                100% {
+                    transform: translateX(calc(-100px * 6 - 90px));
+                }
+            }
+        }
+
+        /* Для iPad и планшетов */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .container {
+                max-width: 700px;
+            }
+            
+            .main-photo {
                 width: 200px;
+                height: 200px;
+            }
+            
+            .heart-photo {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .question {
+                font-size: 2.5rem;
             }
         }
     </style>
@@ -349,19 +433,19 @@
             
             <!-- Карусель из 6 фото в форме сердечек -->
             <div class="photo-carousel">
-                <div class="carousel-track" id="photoTrack">
-                    <img src="photo.jpg" alt="Фото 1" class="heart-photo" onerror="this.src='https://via.placeholder.com/180x180/ff69b4/ffffff?text=💗'">
-                    <img src="IMG_7992.JPG" alt="Фото 2" class="heart-photo" onerror="this.src='https://via.placeholder.com/180x180/ff69b4/ffffff?text=💕'">
-                    <img src="IMG_3096.jpg" alt="Фото 3" class="heart-photo" onerror="this.src='https://via.placeholder.com/180x180/ff69b4/ffffff?text=💖'">
-                    <img src="IMG_3064.jpg" alt="Фото 4" class="heart-photo" onerror="this.src='https://via.placeholder.com/180x180/ff69b4/ffffff?text=💘'">
-                    <img src="IMG_2840.jpg" alt="Фото 5" class="heart-photo" onerror="this.src='https://via.placeholder.com/180x180/ff69b4/ffffff?text=💝'">
-                    <img src="IMG_2699.jpg" alt="Фото 6" class="heart-photo" onerror="this.src='https://via.placeholder.com/180x180/ff69b4/ffffff?text=💞'">
+                <div class="carousel-track" id="photoTrack" ontouchstart="this.classList.add('paused')" ontouchend="this.classList.remove('paused')">
+                    <img src="photo.jpg" alt="Фото 1" class="heart-photo" onerror="this.src='https://via.placeholder.com/150x150/ff69b4/ffffff?text=💗'">
+                    <img src="IMG_7992.JPG" alt="Фото 2" class="heart-photo" onerror="this.src='https://via.placeholder.com/150x150/ff69b4/ffffff?text=💕'">
+                    <img src="IMG_3096.jpg" alt="Фото 3" class="heart-photo" onerror="this.src='https://via.placeholder.com/150x150/ff69b4/ffffff?text=💖'">
+                    <img src="IMG_3064.jpg" alt="Фото 4" class="heart-photo" onerror="this.src='https://via.placeholder.com/150x150/ff69b4/ffffff?text=💘'">
+                    <img src="IMG_2840.jpg" alt="Фото 5" class="heart-photo" onerror="this.src='https://via.placeholder.com/150x150/ff69b4/ffffff?text=💝'">
+                    <img src="IMG_2699.jpg" alt="Фото 6" class="heart-photo" onerror="this.src='https://via.placeholder.com/150x150/ff69b4/ffffff?text=💞'">
                 </div>
             </div>
 
             <!-- Главное фото -->
             <div class="main-photo-container">
-                <img src="IMG_3058.jpg" alt="Наше фото" class="main-photo" id="myPhoto" onerror="this.src='https://via.placeholder.com/220x220/ff69b4/ffffff?text=💗'">
+                <img src="IMG_3058.jpg" alt="Наше фото" class="main-photo" id="myPhoto" onerror="this.src='https://via.placeholder.com/180x180/ff69b4/ffffff?text=💗'">
             </div>
             
             <div class="question">
@@ -389,14 +473,14 @@
 
         <!-- Секция с успехом -->
         <div id="successSection" class="success-section hidden">
-            <div class="success-title">я не сомневалась)))</div>
+            <div class="success-title">Я и не сомневалась;)</div>
             <div class="soft-line"></div>
             <div class="subscription-info">
-                подписка продлевается<br>до 14.02.2027
+                Подписка продлевается<br>до 14.02.2027
             </div>
             <div class="soft-line"></div>
             <!-- Музыка в секции успеха -->
-            <div class="music-section" style="margin-top: 30px;">
+            <div class="music-section" style="margin-top: 20px;">
                 <div class="music-artist">Michael Bublé — L O V E</div>
                 <div class="audio-wrapper">
                     <span class="music-note-small">♪</span>
