@@ -1,94 +1,95 @@
-// Ждем, пока весь HTML загрузится, чтобы скрипт точно нашел все элементы
 document.addEventListener('DOMContentLoaded', function() {
     const noButton = document.getElementById('noBtn');
     const yesButton = document.getElementById('yesBtn');
     const questionSection = document.getElementById('questionSection');
-    const yesMessage = document.getElementById('yesMessage');
-
-    // Функция для получения случайного числа в диапазоне (min, max)
+    const successSection = document.getElementById('successSection');
+    
+    // Функция для получения случайного числа
     function getRandomNumber(min, max) {
         return Math.random() * (max - min) + min;
     }
 
-    // Функция, которая заставляет кнопку "убежать"
+    // Функция для перемещения кнопки "Нет"
     function moveButton() {
-        if (!noButton) return; // Если кнопки нет, выходим
+        if (!noButton) return;
 
-        // Получаем размеры контейнера и кнопки, чтобы она не убегала за пределы экрана
-        const container = document.querySelector('.container');
-        const containerRect = container.getBoundingClientRect();
-        const buttonRect = noButton.getBoundingClientRect();
-
-        // Рассчитываем максимальные координаты, куда можно сместить кнопку,
-        // чтобы она оставалась видимой внутри контейнера (с небольшим отступом)
-        const maxX = containerRect.width - buttonRect.width - 20; // 20px отступ справа
-        const maxY = containerRect.height - buttonRect.height - 20; // 20px отступ снизу
-
-        // Минимальные координаты (чтобы кнопка не улетела влево или вверх за пределы)
-        const minX = 10;
-        const minY = 10;
-
-        // Генерируем случайные новые координаты для кнопки
-        // Позиционирование относительно контейнера, поэтому используем containerRect для расчета,
-        // но проще задавать в пикселях относительно исходного положения.
-        // Используем style.left и style.top, так как кнопка имеет position: relative; в CSS.
-        
-        // Чтобы кнопка двигалась в пределах всего окна браузера (было веселее),
-        // рассчитаем координаты относительно окна, но с учетом, что контейнер не должен ломаться.
-        // Сделаем проще: будем двигать её в пределах видимой области, но следить, чтобы она не улетела за край.
+        // Получаем размеры окна и кнопки
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
-
-        // Текущие координаты кнопки
-        const currentLeft = noButton.offsetLeft;
-        const currentTop = noButton.offsetTop;
-
-        // Генерируем новые координаты в пределах 0-90% от ширины/высоты окна,
-        // но смещение будет относительно исходного положения в контейнере.
-        // Так как кнопка relative, то смещение считается от её исходного места.
-        // Это проще: дадим ей убегать в разные стороны на 100-200px.
-        let newX = getRandomNumber(-150, 150);
-        let newY = getRandomNumber(-150, 150);
-
-        // Применяем новые координаты
+        const buttonRect = noButton.getBoundingClientRect();
+        
+        // Рассчитываем максимальные координаты, чтобы кнопка не уходила за край
+        const maxX = viewportWidth - buttonRect.width - 50;
+        const maxY = viewportHeight - buttonRect.height - 50;
+        
+        // Минимальные координаты
+        const minX = 20;
+        const minY = 20;
+        
+        // Генерируем случайные координаты
+        const newX = Math.min(maxX, Math.max(minX, getRandomNumber(20, maxX)));
+        const newY = Math.min(maxY, Math.max(minY, getRandomNumber(20, maxY)));
+        
+        // Применяем фиксированное позиционирование, чтобы кнопка могла двигаться по всему экрану
+        noButton.style.position = 'fixed';
         noButton.style.left = newX + 'px';
         noButton.style.top = newY + 'px';
-
-        // Чтобы кнопка совсем не убегала за пределы экрана, можно немного скорректировать,
-        // но для простоты и эффекта "убегания" оставим так. На маленьких экранах это будет забавно.
-        // Альтернативный простой вариант: 
-        // noButton.style.transform = `translate(${getRandomNumber(-50, 50)}px, ${getRandomNumber(-50, 50)}px)`;
+        noButton.style.zIndex = '1000';
+        
+        // Добавляем небольшую анимацию
+        noButton.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            noButton.style.transform = 'scale(1)';
+        }, 200);
     }
 
-    // Добавляем обработчик события на кнопку "Нет"
+    // Обработчики для кнопки "Нет"
     if (noButton) {
-        // Событие mouseenter срабатывает, когда курсор мыши входит на территорию кнопки
+        // Для компьютера - при наведении мыши
         noButton.addEventListener('mouseenter', function(e) {
             moveButton();
         });
-
-        // На случай, если на телефоне (там нет курсора мыши) — добавим обработчик клика,
-        // чтобы кнопка тоже убегала при попытке нажатия.
-        noButton.addEventListener('click', function(e) {
-            e.preventDefault(); // Предотвращаем возможное действие по умолчанию
+        
+        // Для телефона - при попытке нажать
+        noButton.addEventListener('touchstart', function(e) {
+            e.preventDefault();
             moveButton();
         });
-
-        // Чтобы кнопка не двигалась сразу при загрузке страницы, если мышь уже над ней,
-        // но это редкость, оставим как есть.
+        
+        // Дополнительная защита от нажатия
+        noButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            moveButton();
+        });
     }
 
     // Обработка нажатия на кнопку "Да"
     if (yesButton) {
         yesButton.addEventListener('click', function() {
-            // Прячем секцию с вопросом и кнопками
-            if (questionSection) {
-                questionSection.style.display = 'none';
-            }
-            // Показываем сообщение о согласии
-            if (yesMessage) {
-                yesMessage.classList.remove('hidden');
-            }
+            // Плавно скрываем секцию с вопросом
+            questionSection.style.opacity = '0';
+            questionSection.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                questionSection.classList.add('hidden');
+                // Показываем секцию с успехом
+                successSection.classList.remove('hidden');
+                successSection.style.opacity = '0';
+                successSection.style.transition = 'opacity 0.5s ease';
+                
+                setTimeout(() => {
+                    successSection.style.opacity = '1';
+                }, 50);
+            }, 500);
         });
     }
+
+    // Сбрасываем позицию кнопки при изменении размера окна
+    window.addEventListener('resize', function() {
+        if (noButton && !successSection.classList.contains('hidden')) {
+            noButton.style.position = 'relative';
+            noButton.style.left = '';
+            noButton.style.top = '';
+        }
+    });
 });
