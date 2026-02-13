@@ -82,11 +82,10 @@
                 transform: translateX(0);
             }
             100% {
-                transform: translateX(calc(-200px * 6 - 180px)); /* Ширина фото * количество + отступы */
+                transform: translateX(calc(-200px * 6 - 180px));
             }
         }
 
-        /* Останавливаем анимацию при наведении */
         .carousel-track:hover {
             animation-play-state: paused;
         }
@@ -108,7 +107,7 @@
             border-color: #ff69b4;
         }
 
-        /* Главное фото (крупное) */
+        /* Главное фото */
         .main-photo-container {
             text-align: center;
             margin: 20px 0 30px;
@@ -198,6 +197,60 @@
             transform: scale(1.05);
         }
 
+        /* Стили для аудиоплеера */
+        .music-player {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            border-radius: 60px;
+            padding: 15px 25px;
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.3);
+            border: 3px solid #ff69b4;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.9);
+            animation: playerFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes playerFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .music-player audio {
+            height: 40px;
+            width: 250px;
+            border-radius: 20px;
+        }
+
+        .music-player audio::-webkit-media-controls-panel {
+            background: #fff0f5;
+        }
+
+        .music-player audio::-webkit-media-controls-play-button {
+            background: #ff69b4;
+            border-radius: 50%;
+        }
+
+        .music-player audio::-webkit-media-controls-timeline {
+            display: none;
+        }
+
+        .music-note {
+            font-size: 2rem;
+            animation: spin 4s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         .success-section {
             text-align: center;
             padding: 20px;
@@ -275,34 +328,47 @@
                     transform: translateX(calc(-130px * 6 - 150px));
                 }
             }
+            .music-player {
+                bottom: 20px;
+                right: 20px;
+                padding: 10px 15px;
+            }
+            .music-player audio {
+                width: 180px;
+                height: 35px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Аудиоплеер с песней Michael Bublé - L O V E -->
+    <div class="music-player">
+        <span class="music-note">🎵</span>
+        <audio controls autoplay loop volume="0.6">
+            <source src="Michael_Buble_-_L_O_V_E_.mp3" type="audio/mpeg">
+            Твой браузер не поддерживает аудио
+        </audio>
+        <span class="music-note">🎵</span>
+    </div>
+
     <div class="container" id="mainContainer">
         
         <!-- Секция с вопросом -->
         <div id="questionSection">
             
-            <!-- Карусель из 6 фото в форме сердечек (двигаются слева направо) -->
+            <!-- Карусель из 6 фото в форме сердечек -->
             <div class="photo-carousel">
                 <div class="carousel-track" id="photoTrack">
-                    <!-- Фото 1 -->
                     <img src="photo.jpg" alt="Фото 1" class="heart-photo" onerror="this.src='https://via.placeholder.com/180x180/ff69b4/ffffff?text=💗'">
-                    <!-- Фото 2 -->
                     <img src="IMG_7992.JPG" alt="Фото 2" class="heart-photo" onerror="this.src='https://via.placeholder.com/180x180/ff69b4/ffffff?text=💕'">
-                    <!-- Фото 3 -->
                     <img src="IMG_3096.jpg" alt="Фото 3" class="heart-photo" onerror="this.src='https://via.placeholder.com/180x180/ff69b4/ffffff?text=💖'">
-                    <!-- Фото 4 -->
                     <img src="IMG_3064.jpg" alt="Фото 4" class="heart-photo" onerror="this.src='https://via.placeholder.com/180x180/ff69b4/ffffff?text=💘'">
-                    <!-- Фото 5 -->
                     <img src="IMG_2840.jpg" alt="Фото 5" class="heart-photo" onerror="this.src='https://via.placeholder.com/180x180/ff69b4/ffffff?text=💝'">
-                    <!-- Фото 6 -->
                     <img src="IMG_2699.jpg" alt="Фото 6" class="heart-photo" onerror="this.src='https://via.placeholder.com/180x180/ff69b4/ffffff?text=💞'">
                 </div>
             </div>
 
-            <!-- Главное фото (крупное, которое уже было) -->
+            <!-- Главное фото -->
             <div class="main-photo-container">
                 <img src="IMG_3058.jpg" alt="Наше фото" class="main-photo" id="myPhoto" onerror="this.src='https://via.placeholder.com/220x220/ff69b4/ffffff?text=💗'">
             </div>
@@ -318,10 +384,10 @@
 
         <!-- Секция с успехом -->
         <div id="successSection" class="success-section hidden">
-            <div class="success-title">я не сомневалась)))</div>
+            <div class="success-title">я и не сомневалась;)</div>
             <div class="soft-line"></div>
             <div class="subscription-info">
-                подписка продлевается<br>до 14.02.2027
+                Подписка продлевается<br>до 14.02.2027
             </div>
             <div class="soft-line"></div>
         </div>
