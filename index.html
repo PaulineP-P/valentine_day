@@ -3,115 +3,302 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Будешь моей Валентинкой?</title>
+    <title>Продление подписки 💕</title>
+    <!-- Подключаем красивые шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        body {
+        * {
             margin: 0;
             padding: 0;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #2c1810 0%, #4a2c20 50%, #2c1810 100%);
+            font-family: 'Cormorant Garamond', serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            overflow: hidden; /* Убираем полосы прокрутки на весь сайт */
+            overflow: hidden;
+            position: relative;
         }
+
+        /* Элегантный золотой узор на фоне */
+        body::before {
+            content: "❦";
+            position: absolute;
+            font-size: 200px;
+            color: rgba(212, 175, 55, 0.03);
+            bottom: -50px;
+            right: -50px;
+            transform: rotate(15deg);
+        }
+
+        body::after {
+            content: "❦";
+            position: absolute;
+            font-size: 300px;
+            color: rgba(212, 175, 55, 0.03);
+            top: -100px;
+            left: -100px;
+            transform: rotate(-15deg);
+        }
+
         .container {
-            background-color: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            max-width: 600px;
+            background: rgba(255, 250, 240, 0.92);
+            backdrop-filter: blur(8px);
+            padding: 60px 50px;
+            border-radius: 40px 12px 40px 12px;
+            box-shadow: 
+                0 30px 50px rgba(0, 0, 0, 0.4),
+                inset 0 2px 4px rgba(255, 255, 255, 0.6),
+                0 0 0 2px rgba(212, 175, 55, 0.3),
+                0 0 0 5px rgba(74, 44, 32, 0.2);
+            max-width: 800px;
             width: 90%;
-            border: 3px solid white;
+            position: relative;
+            border: 1px solid rgba(212, 175, 55, 0.4);
         }
-        h1 {
-            font-size: 3rem;
-            color: #d43f4f;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 0 white;
+
+        /* Декоративные элементы */
+        .container .ornament {
+            position: absolute;
+            font-size: 24px;
+            color: #b8860b;
+            opacity: 0.3;
         }
-        .image-container {
+
+        .ornament-top-left {
+            top: 15px;
+            left: 20px;
+            transform: rotate(-45deg);
+        }
+
+        .ornament-top-right {
+            top: 15px;
+            right: 20px;
+            transform: rotate(45deg);
+        }
+
+        .ornament-bottom-left {
+            bottom: 15px;
+            left: 20px;
+            transform: rotate(45deg);
+        }
+
+        .ornament-bottom-right {
+            bottom: 15px;
+            right: 20px;
+            transform: rotate(-45deg);
+        }
+
+        h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.2rem;
+            font-weight: 600;
+            color: #2c1810;
+            letter-spacing: 2px;
             margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(212, 175, 55, 0.2);
+            line-height: 1.3;
+            border-bottom: 1px solid #d4af37;
+            padding-bottom: 25px;
+            position: relative;
         }
-        .image-container img {
-            max-width: 200px;
-            border-radius: 50%;
-            border: 5px solid white;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+
+        h2::before {
+            content: "«";
+            font-size: 4rem;
+            color: #d4af37;
+            position: absolute;
+            left: -20px;
+            top: -20px;
+            opacity: 0.5;
         }
+
+        h2::after {
+            content: "»";
+            font-size: 4rem;
+            color: #d4af37;
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            opacity: 0.5;
+        }
+
+        .question {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            font-weight: 400;
+            color: #4a2c20;
+            text-align: center;
+            margin: 40px 0 50px;
+            letter-spacing: 1px;
+            line-height: 1.5;
+            text-transform: uppercase;
+            word-spacing: 4px;
+            background: linear-gradient(135deg, #2c1810 0%, #b8860b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
         .button-container {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-        .btn {
-            font-size: 2rem;
-            padding: 15px 40px;
-            border: none;
-            border-radius: 60px;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            min-width: 150px;
-        }
-        .btn-yes {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .btn-yes:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.6);
-        }
-        .btn-no {
-            background-color: #f44336;
-            color: white;
-            /* Позиционирование относительно, чтобы мы могли двигать её через JS */
+            gap: 50px;
+            margin: 50px 0 20px;
             position: relative;
-            transition: top 0.1s, left 0.1s; /* Плавное движение */
+            z-index: 10;
         }
-        /* Класс для состояния "победы", когда нажали "Да" */
+
+        .btn {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 500;
+            padding: 18px 45px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            min-width: 200px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-yes {
+            background: #2c1810;
+            color: #fff5e6;
+            border: 1px solid #d4af37;
+            border-radius: 30px 5px 30px 5px;
+        }
+
+        .btn-yes:hover {
+            background: #4a2c20;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+            border-radius: 5px 30px 5px 30px;
+        }
+
+        .btn-no {
+            background: #fff5e6;
+            color: #2c1810;
+            border: 1px solid #2c1810;
+            border-radius: 5px 30px 5px 30px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .btn-no:hover {
+            background: #ffe4cc;
+        }
+
+        .success-section {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .success-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            color: #2c1810;
+            margin-bottom: 30px;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(212, 175, 55, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .subscription-info {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #2c1810, #b8860b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 500;
+            margin: 40px 0 20px;
+            padding: 20px;
+            border-top: 1px solid #d4af37;
+            border-bottom: 1px solid #d4af37;
+            letter-spacing: 2px;
+        }
+
+        .elegant-note {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: #4a2c20;
+            font-style: italic;
+            margin-top: 30px;
+            opacity: 0.9;
+        }
+
         .hidden {
             display: none;
         }
-        .valentine-message {
-            font-size: 4rem;
-            color: #ff1493;
-            animation: heartbeat 1.5s infinite;
+
+        /* Декоративные линии */
+        .line-decoration {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #d4af37, #b8860b, #d4af37, transparent);
+            width: 80%;
+            margin: 20px auto;
         }
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            30% { transform: scale(1.2); }
-            50% { transform: scale(1.1); }
-            70% { transform: scale(1.2); }
-            100% { transform: scale(1); }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 20px;
+            }
+            h2 {
+                font-size: 2.5rem;
+            }
+            .question {
+                font-size: 1.5rem;
+            }
+            .btn {
+                font-size: 1.2rem;
+                padding: 15px 30px;
+                min-width: 150px;
+            }
+            .button-container {
+                gap: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container" id="mainContainer">
-        <h1>💖 Мой любимый 💖</h1>
-        <div class="image-container">
-            <!-- Здесь можно вставить ссылку на любую картинку. Например, милого кота или ваше совместное фото -->
-            <img src="https://i.pinimg.com/736x/42/9c/bd/429cbd33a94240465dd0665b762293ae.jpg" alt="Влюбленный котик">
-        </div>
+        <!-- Декоративные элементы -->
+        <div class="ornament ornament-top-left">✧</div>
+        <div class="ornament ornament-top-right">✧</div>
+        <div class="ornament ornament-bottom-left">✧</div>
+        <div class="ornament ornament-bottom-right">✧</div>
+
+        <!-- Секция с вопросом (видна изначально) -->
         <div id="questionSection">
-            <h2>Будешь моей Валентинкой?</h2>
+            <h2>Mon Cheri ❦</h2>
+            <div class="question">Продлеваешь подписку на быть моей Валентиной на год?</div>
             <div class="button-container">
-                <button class="btn btn-yes" id="yesBtn">ДА 💘</button>
-                <button class="btn btn-no" id="noBtn">НЕТ 💔</button>
+                <button class="btn btn-yes" id="yesBtn">Oui ✦</button>
+                <button class="btn btn-no" id="noBtn">Non ✧</button>
             </div>
         </div>
-        <div id="yesMessage" class="valentine-message hidden">
-            🎉 Ура! Я ТАК СЧАСТЛИВ(А)! 🎉
+
+        <!-- Секция с успехом (скрыта изначально) -->
+        <div id="successSection" class="success-section hidden">
+            <div class="success-title">я не сомневалась)))</div>
+            <div class="line-decoration"></div>
+            <div class="subscription-info">✦ подписка продлевается до 14.02.2027 ✦</div>
+            <div class="line-decoration"></div>
+            <div class="elegant-note">avec tout mon amour ❤️</div>
         </div>
     </div>
 
-    <!-- Подключаем файл с логикой -->
     <script src="app.js"></script>
 </body>
 </html>
